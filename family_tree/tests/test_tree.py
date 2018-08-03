@@ -9,6 +9,7 @@ def populated_tree():
 	"amy": {
 	    "father": "brian",
 	    "mother": "shelly",
+	    "sons": ["george"]
 	  },
 	"alex": {
 		"father": "evan",
@@ -101,3 +102,7 @@ def test_add_child_add_to_both_parents(populated_tree):
 	assert populated_tree.add_child("robin", "alex", "sons") == str.format(tree.WELCOME, "Robin")
 	assert populated_tree.data["alex"]["sons"] == ["robin"]
 	assert populated_tree.data["nancy"]["sons"] == ["robin"]
+
+def test_add_child_child_exists_return_message(populated_tree):
+
+	assert populated_tree.add_child("amy", "george", "sons") == tree.CHILD_EXISTS

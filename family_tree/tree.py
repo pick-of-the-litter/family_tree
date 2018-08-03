@@ -1,4 +1,5 @@
 WELCOME = "Welcome to the family, {}"
+CHILD_EXISTS = "Sorry that child already exists!"
 RELATIONSHIPS = set(["father", "mother", "grandfather", "grandmother",
                      "daughters", "sons", "brothers", "sisters",
                      "uncles", "aunts", "cousins", "grandsons",
@@ -48,15 +49,16 @@ class Tree:
             self.data[husband] = {"wife": wife}
             return str.format(WELCOME, husband.title())
 
-    def add_child(self, child, parent, relation):
+    def add_child(self, child, parent , relation):
+
+        if self.ispresent(child):
+            return CHILD_EXISTS
         
         self.isvalid(parent, relation)
 
         spouse_name = ""
         spouse_relation = ""
         parents = [parent]
-
-        print(self.data.keys())
 
         spouse_relation = [x for x in self.data[parent].keys()
                            if x in ["husband", "wife"]]
@@ -66,7 +68,6 @@ class Tree:
             parents.append(spouse_name)
 
         for p in parents:
-            print(parents)
             if relation in self.data[p]:
                 self.data[p][relation].append(child)
             else:
@@ -83,3 +84,8 @@ class Tree:
         if relation not in RELATIONSHIPS:
             raise KeyError(
                 str.format("Sorry, {} not a supported relationship type",relation))
+
+    def ispresent(self, person):
+
+        if person in self.data:
+            return True
