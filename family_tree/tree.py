@@ -43,6 +43,32 @@ class Tree:
             self.data[husband] = {"wife": wife}
             return str.format(WELCOME, husband.title())
 
+    def add_child(self, child, parent, relation):
+        
+        self.isvalid(parent, relation)
+
+        spouse_name = ""
+        spouse_relation = ""
+        parents = [parent]
+
+        print(self.data.keys())
+
+        spouse_relation = [x for x in self.data[parent].keys() if x in ["husband", "wife"]]
+
+        if spouse_relation:
+            spouse_name = self.data[parent][spouse_relation[0]]
+            parents.append(spouse_name)
+
+        for p in parents:
+            print(parents)
+            if relation in self.data[p]:
+                self.data[p][relation].append(child)
+            else:
+                self.data[p][relation] = [child]
+
+        return str.format(WELCOME, child.title())
+
+
     def isvalid(self, person, relation):
 
         if person not in self.data:
