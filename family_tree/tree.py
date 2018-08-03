@@ -23,6 +23,25 @@ class Tree:
 
         return str.format("{0}={1}", relation.title(), relations.title())
 
+    def add_spouse(self, husband, wife):
+
+        print(str.format("{0} - {1} - {2}", husband, wife, self.data.keys()))
+
+        if husband in self.data.keys():
+            if wife in self.data.keys():
+                raise ValueError(str.format("Both {0} and {1} already exist in your family tree.", husband, wife))
+
+        if not {p for p in set(self.data) if p in (husband, wife)}:
+            raise ValueError(str.format("Neither {0} and {1} exist in your family tree.", husband, wife))
+
+        if husband in self.data:
+            self.data[husband]["wife"] = wife
+            self.data[wife] = {"husband": husband}
+
+        if wife in self.data:
+            self.data[wife]["husband"] = husband
+            self.data[husband] = {"wife": wife}
+
     def isvalid(self, person, relation):
 
         if person not in self.data:

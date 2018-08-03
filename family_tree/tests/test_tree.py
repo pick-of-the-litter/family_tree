@@ -6,6 +6,10 @@ from .context import tree
 def populated_tree():
 	'''return a populated tree'''
 	f = {
+	"amy": {
+	    "father": "brian",
+	    "mother": "shelly",
+	  },
 	"alex": {
 		"father": "evan",
 		"mother": "diana",
@@ -18,13 +22,13 @@ def populated_tree():
 		"grandfather": "jack",
 		"grandmother": "helen",
 		"grandsons": ["jon", "billy"],
-		"grandaughters": ["trish"]
+		"grandaughters": ["trish"],
 		},
 	 "john": {
 		"father": "evan",
 		"mother": "diana",
 		"sisters": ["nisha"],
-		"brothers": ["alex","joe"]
+		"brothers": ["alex","joe"],
 		},
 	}
 
@@ -65,3 +69,28 @@ def test_relationship_missing(populated_tree):
 
 	with pytest.raises(KeyError):
 		populated_tree.get_relationships("john", "stepson")
+
+def test_add_spouse_wife(populated_tree):
+
+	populated_tree.add_spouse("john", "kelly")
+	data = populated_tree.data
+	assert data["john"]["wife"] == "kelly"
+	assert data["kelly"]["husband"] == "john"
+
+def test_add_spouse_husband(populated_tree):
+
+	populated_tree.add_spouse("phillip", "amy")
+	data = populated_tree.data
+	assert data["phillip"]["wife"] == "amy"
+	assert data["amy"]["husband"] == "phillip"
+
+def test_add_spouse_neither_person_exists(populated_tree):
+
+	with pytest.raises(ValueError):
+	    populated_tree.add_spouse("unknown", "annon")
+
+
+def test_add_spouse_both_people_exist(populated_tree):
+
+	with pytest.raises(ValueError):
+	    populated_tree.add_spouse("alex", "amy")
