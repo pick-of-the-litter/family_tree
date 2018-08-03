@@ -72,17 +72,15 @@ def test_relationship_missing(populated_tree):
 
 def test_add_spouse_wife(populated_tree):
 
-	populated_tree.add_spouse("john", "kelly")
-	data = populated_tree.data
-	assert data["john"]["wife"] == "kelly"
-	assert data["kelly"]["husband"] == "john"
+	assert populated_tree.add_spouse("john", "kelly") == str.format(tree.WELCOME, "Kelly")
+	assert populated_tree.data["john"]["wife"] == "kelly"
+	assert populated_tree.data["kelly"]["husband"] == "john"
 
 def test_add_spouse_husband(populated_tree):
 
-	populated_tree.add_spouse("phillip", "amy")
-	data = populated_tree.data
-	assert data["phillip"]["wife"] == "amy"
-	assert data["amy"]["husband"] == "phillip"
+	assert populated_tree.add_spouse("phillip", "amy") == str.format(tree.WELCOME, "Phillip")
+	assert populated_tree.data["phillip"]["wife"] == "amy"
+	assert populated_tree.data["amy"]["husband"] == "phillip"
 
 def test_add_spouse_neither_person_exists(populated_tree):
 
