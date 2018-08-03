@@ -11,7 +11,14 @@ def populated_tree():
 		"mother": "diana",
 		"wife": "nancy",
 		"sisters": ["nisha"],
-		"brothers": ["john","joe"]
+		"brothers": ["john","joe"],
+		"cousins": ["peter, steve"],
+		"aunts": ["jane"],
+		"uncles": ["bob"],
+		"grandfather": "jack",
+		"grandmother": "helen",
+		"grandsons": ["jon", "billy"],
+		"grandaughters": ["trish"]
 		},
 	 "john": {
 		"father": "evan",
@@ -28,6 +35,8 @@ def populated_tree():
 	("alex", "father", "Father=Evan"),
 	("alex", "mother", "Mother=Diana"),
 	("alex", "wife", "Wife=Nancy"),
+	("alex", "grandmother", "Grandmother=Helen"),
+	("alex", "grandfather", "Grandfather=Jack"),
 	])
 def test_singular_relationship(populated_tree, name, relation, result):
 
@@ -37,21 +46,22 @@ def test_singular_relationship(populated_tree, name, relation, result):
 @pytest.mark.parametrize("name, relation, result", [
 	("alex", "brothers", "Brothers=Joe,John"),
 	("alex", "sisters", "Sisters=Nisha"),
+	("alex", "cousins", "Cousins=Peter,Steve"),
+	("alex", "aunts", "Aunts=Jane"),
+	("alex", "uncles", "Uncles=Bob"),
+	("alex", "grandsons", "Grandsons=Billy,Jon"),
+	("alex", "grandaughters", "Grandaughters=Trish"),
 	])
 def test_plural_relationships(populated_tree, name, relation, result):
 
 	assert populated_tree.get_relationships(name, relation) == result
 
-# def test_person_doesnt_exist(populated_tree):
+def test_person_doesnt_exist(populated_tree):
 
-# 	relationship = Relationship("xyz", "mother")
+	with pytest.raises(ValueError):
+		populated_tree.get_relationships("tina", "mother")
 
-# 	with pytest.raises(ValueError):
-# 		populated_tree.validate(relationship)
+def test_relationship_missing(populated_tree):
 
-# def test_relationship_missing(populated_tree):
-
-# 	relationship = Relationship("alex", "cosuins")
-
-# 	with pytest.raises(KeyError):
-# 		populated_tree.validate(relationship)
+	with pytest.raises(KeyError):
+		populated_tree.get_relationships("john", "stepson")

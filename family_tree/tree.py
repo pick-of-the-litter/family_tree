@@ -2,21 +2,32 @@
 
 class Tree:
 
-	_relationships = set(["father", "mother", "grandfather", "grandmother",
-	"daughter", "son", "brother", "sister", "uncle", "aunt", "cousin",
-	"grandson", "grandaughter"])
+    relationships = set(["father", "mother", "grandfather", "grandmother",
+    "daughters", "sons", "brothers", "sisters", "uncles", "aunts", "cousins",
+    "grandsons", "grandaughters", "wife", "husband"])
 
-	data = {}
+    data = {}
 
-	def __init__(self, data):
+    def __init__(self, data):
 
-		self.data = data
+        self.data = data
 
-	def get_relationships(self, person, relation):
+    def get_relationships(self, person, relation):
 
-		relations = self.data[person][relation]
+        self.isvalid(person, relation)
 
-		if type(relations) == list:
-			relations =  ",".join(sorted(relations))
+        relations = self.data[person][relation]
 
-		return str.format("{0}={1}", relation.title(), relations.title())
+        if type(relations) == list:
+            relations =  ",".join(sorted(relations)).replace(" ", "")
+
+        return str.format("{0}={1}", relation.title(), relations.title())
+
+    def isvalid(self, person, relation):
+
+        if person not in self.data:
+            raise ValueError(str.format("{} is a not a member of this family.", person))
+
+        if relation not in self.relationships:
+            raise KeyError(str.format("Sorry, {} not a supported relationship type", relation))
+
