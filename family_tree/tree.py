@@ -1,9 +1,9 @@
-
-
 WELCOME = "Welcome to the family, {}"
 RELATIONSHIPS = set(["father", "mother", "grandfather", "grandmother",
-"daughters", "sons", "brothers", "sisters", "uncles", "aunts", "cousins",
-"grandsons", "grandaughters", "wife", "husband"])
+                     "daughters", "sons", "brothers", "sisters",
+                     "uncles", "aunts", "cousins", "grandsons",
+                     "grandaughters", "wife", "husband"])
+
 
 class Tree:
 
@@ -20,7 +20,7 @@ class Tree:
         relations = self.data[person][relation]
 
         if type(relations) == list:
-            relations =  ",".join(sorted(relations)).replace(" ", "")
+            relations = ",".join(sorted(relations)).replace(" ", "")
 
         return str.format("{0}={1}", relation.title(), relations.title())
 
@@ -28,10 +28,15 @@ class Tree:
 
         if husband in self.data.keys():
             if wife in self.data.keys():
-                raise ValueError(str.format("Both {0} and {1} already exist in your family tree.", husband, wife))
+                raise ValueError(str.format(
+                    "Both {0} and {1} already exist in your family tree.",
+                    husband, wife))
 
-        if not {p for p in set(self.data) if p in (husband, wife)}:
-            raise ValueError(str.format("Neither {0} and {1} exist in your family tree.", husband, wife))
+        if husband not in self.data.keys():
+            if wife not in self.data.keys():
+                raise ValueError(str.format(
+                    "Neither {0} and {1} exist in your family tree.",
+                    husband, wife))
 
         if husband in self.data:
             self.data[husband]["wife"] = wife
@@ -53,7 +58,8 @@ class Tree:
 
         print(self.data.keys())
 
-        spouse_relation = [x for x in self.data[parent].keys() if x in ["husband", "wife"]]
+        spouse_relation = [x for x in self.data[parent].keys()
+                           if x in ["husband", "wife"]]
 
         if spouse_relation:
             spouse_name = self.data[parent][spouse_relation[0]]
@@ -68,12 +74,12 @@ class Tree:
 
         return str.format(WELCOME, child.title())
 
-
     def isvalid(self, person, relation):
 
         if person not in self.data:
-            raise ValueError(str.format("{} is a not a member of this family.", person))
+            raise ValueError(str.format("{} is a not a member of this family.",
+                             person))
 
         if relation not in RELATIONSHIPS:
-            raise KeyError(str.format("Sorry, {} not a supported relationship type", relation))
-
+            raise KeyError(
+                str.format("Sorry, {} not a supported relationship type",relation))
