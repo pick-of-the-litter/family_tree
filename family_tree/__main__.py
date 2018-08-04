@@ -7,6 +7,13 @@ from .tree import Tree
 DATA_FILE = os.path.join(os.path.dirname(__file__), "../data/tree.json")
 
 def main():
+    """Parse the input, load the family tree and run
+        the appropriate command.
+
+    Returns:
+        str: The message from the command that was run.
+    """
+
 
     try:
         args = sys.argv[1:]
@@ -36,6 +43,15 @@ def main():
         return e.message
 
 def run_command(tree, args):
+       """Run a command based on the parsed inputs.
+
+        Args:
+            tree (str):The data to perform an action with.
+            args (str): The arguments parsed from the CLI.
+
+        Returns:
+            str: The message from the command that was run.
+        """
 
     if "person" in args.keys():
         return tree.get_relationships(args["person"], args["relation"])
@@ -51,6 +67,11 @@ def run_command(tree, args):
         return message
 
 def save_tree(data):
+        """Write the family tree to a JSON file.
+
+        Args:
+            data (str): The family tree JSON.
+        """
 
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=4, sort_keys=True)

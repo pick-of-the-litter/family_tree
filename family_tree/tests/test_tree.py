@@ -4,7 +4,7 @@ from .context import tree
 
 @pytest.fixture
 def populated_tree():
-	'''return a populated tree'''
+	"""return a populated tree"""
 	f = {
 	"amy": {
 	    "father": "brian",

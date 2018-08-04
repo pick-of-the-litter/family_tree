@@ -73,4 +73,3 @@ Third Party Libraries
 ---------------------
 
 - Pytest: Because it makes testing quicker and easier
-- PEP8: To maintain code quality
