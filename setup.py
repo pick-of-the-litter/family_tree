@@ -22,6 +22,7 @@ setup(name='Family Tree',
     packages=['family_tree'],
     install_requires=[
         'pytest',
+        'PEP8'
     ],
     include_package_data=True,
     zip_safe=False)
