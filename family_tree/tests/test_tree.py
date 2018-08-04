@@ -28,6 +28,9 @@ def populated_tree():
 	"nancy": {
 		"husband": "alex",
 	},
+	"george":{
+	    "mother": "amy"
+	},
 	 "john": {
 		"father": "evan",
 		"mother": "diana",
@@ -97,6 +100,11 @@ def test_add_spouse_both_people_exist(populated_tree):
 	with pytest.raises(ValueError):
 	    populated_tree.add_spouse("alex", "amy")
 
+def test_add_spouse_person_already_has_spouse(populated_tree):
+
+	with pytest.raises(ValueError):
+	    assert populated_tree.add_spouse("alex", "nancy")
+
 def test_add_child_add_to_both_parents(populated_tree):
 
 	assert populated_tree.add_child("robin", "alex", "sons") == str.format(tree.WELCOME, "Robin")
@@ -105,4 +113,5 @@ def test_add_child_add_to_both_parents(populated_tree):
 
 def test_add_child_child_exists_return_message(populated_tree):
 
-	assert populated_tree.add_child("amy", "george", "sons") == tree.CHILD_EXISTS
+    with pytest.raises(ValueError):
+	    populated_tree.add_child("george", "amy", "sons")

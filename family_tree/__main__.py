@@ -11,21 +11,25 @@ def main():
     try:
         args = sys.argv[1:]
 
-        if len(args) == 2:
+        if len(args) != 2:
+            raise ValueError(
+                "Incorrect input. Please see the README.rst for input instructions.")
 
-            parsed_arguments = parse(" ".join(args))
+        parsed_arguments = parse(" ".join(args))
 
-            if not parsed_arguments:
-                raise ValueError("Could not parse input please check supported input formats")
+        if not parsed_arguments:
+            raise ValueError(
+                "Could not parse input please check supported input formats.")
 
-            data = {}
+        data = {}
 
-            with open(DATA_FILE, "r") as f:
-                data = json.load(f)
+        with open(DATA_FILE, "r") as f:
+            data = json.load(f)
 
-            tree = Tree(data)
+        tree = Tree(data)
 
-            return run_command(tree, parsed_arguments)
+        return run_command(tree, parsed_arguments)
+
     except ValueError as e:
         return(e)
     except Exception as e:
@@ -49,8 +53,7 @@ def run_command(tree, args):
 def save_tree(data):
 
     with open(DATA_FILE, 'w') as f:
-        json.dump(data, f)
-
+        json.dump(data, f, indent=4, sort_keys=True)
 
 if __name__ == '__main__':
     main()
