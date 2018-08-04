@@ -4,6 +4,7 @@ import re
 PATTERNS = ["person=[a-z]*\\srelation=[a-z]*", "mother=[a-z]*\\sson=[a-z]*",
             "husband=[a-z]*\\swife=[a-z]*", "wife=[a-z]*\\shusband=[a-z]*"]
 
+
 def parse(args):
     """
     Parse the arguments from the command line with regex.
