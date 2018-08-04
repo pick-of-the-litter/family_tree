@@ -14,7 +14,6 @@ def main():
         str: The message from the command that was run.
     """
 
-
     try:
         args = sys.argv[1:]
 
