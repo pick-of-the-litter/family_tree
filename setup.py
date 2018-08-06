@@ -14,10 +14,14 @@ setup(name='Family Tree',
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 3.6',
     ],
+    entry_points = {
+        'console_scripts': [
+            'family_tree = family_tree.__main__:main'
+        ]
+    },
     packages=['family_tree'],
-    scripts=['bin/tree'],
     install_requires=[
-        'pytest',
+        'pytest'
     ],
     include_package_data=True,
     zip_safe=False)
