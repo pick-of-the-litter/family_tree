@@ -4,7 +4,112 @@ import sys
 from .argument_parser import parse
 from .tree import Tree
 
-DATA_FILE = os.path.join(os.path.dirname(__file__), "../data/tree.json")
+DATA = {
+    "alex": {
+        "brothers": [
+            "john",
+            "joe"
+        ],
+        "father": "evan",
+        "grandaughters": [
+            "sophia"
+        ],
+        "grandsons": [
+            "bern"
+        ],
+        "mother": "diana",
+        "sisters": [
+            "nisha"
+        ],
+        "sons": [
+            "jacob",
+            "shaun"
+        ],
+        "wife": "nancy"
+    },
+    "bern": {
+        "father": "jacob",
+        "grandfather": "alex",
+        "grandmother": "nancy",
+        "mother": "rufi",
+        "uncles": [
+            "shaun"
+        ],
+    },
+    "george": {
+        "wife": "sophia"
+    },
+    "jacob": {
+        "aunts": [
+            "nisha"
+        ],
+        "brothers": [
+            "shaun"
+        ],
+        "daughters": [
+            "sophia"
+        ],
+        "father": "alex",
+        "grandfather": "evan",
+        "grandmother": "diana",
+        "mother": "nancy",
+        "sons": [
+            "bern"
+        ],
+        "uncles": [
+            "joe",
+            "john"
+        ],
+        "wife": "rufi"
+    },
+    "nancy": {
+        "grandaughters": [
+            "sophia"
+        ],
+        "grandsons": [
+            "bern"
+        ],
+        "husband": "alex",
+        "sons": [
+            "jacob",
+            "shaun"
+        ]
+    },
+    "piers": {
+        "cousins": [
+            "jacob",
+            "shaun",
+            "ruth",
+            "william"
+        ],
+        "daughters": "sarah",
+        "father": "joe",
+        "mother": "niki",
+        "sisters": [
+            "sally"
+        ],
+        "wife": "pippa"
+    },
+    "rufi": {
+        "daughters": [
+            "sophia"
+        ],
+        "husband": "jacob",
+        "sons": [
+            "bern"
+        ]
+    },
+    "sophia": {
+        "brothers": [
+            "bern"
+        ],
+        "father": "jacob",
+        "grandfather": "alex",
+        "grandmother": "nancy",
+        "husband": "george",
+        "mother": "rufi"
+    }
+}
 
 
 def main():
@@ -14,7 +119,7 @@ def main():
     Returns:
         str: The message from the command that was run.
     """
-
+    print('running')
     try:
         args = sys.argv[1:]
 
@@ -30,12 +135,7 @@ def main():
                 "Could not parse input please check"
                 "supported input formats.")
 
-        data = {}
-
-        with open(DATA_FILE, "r") as f:
-            data = json.load(f)
-
-        tree = Tree(data)
+        tree = Tree(DATA)
 
         return run_command(tree, parsed_arguments)
 
