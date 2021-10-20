@@ -1,0 +1,21 @@
+ pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+              options {
+                timeout(time: 5, unit: 'MINUTES') 
+            }
+            steps {
+                git 'https://github.com/amurphy89/family_tree'
+                sh 'source $HOME/.poetry/env && poetry build'
+            }            
+        }
+        stage('Test') {
+            steps {
+                sh 'python3 -m pip install pytest'
+                sh 'python3 -m pytest --junitxml=test-report.xml'
+            }
+        }
+    }
+}
