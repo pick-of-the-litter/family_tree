@@ -2,19 +2,30 @@
     agent any
     
     stages {
+        options {
+            timeout(time: 10, unit: 'MINUTES') 
+        }
         stage('Build') {
-            options {
-                timeout(time: 5, unit: 'MINUTES') 
-            }
             steps {
                 git 'https://github.com/amurphy89/family_tree'
                 sh './cicd/jenkins/build.sh'
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/**.whl'
+                }
+                failure {
+                    error('Build stage failed, exiting pipeline.')
+                }
+            }
+        }
+        stage('Test') {
+            steps {
                 sh './cicd/jenkins/test.sh'
             }
             post {
                 success {
                     junit 'test-report.xml'
-                    archiveArtifacts 'dist/**.whl'
                 }
             }
         }    
