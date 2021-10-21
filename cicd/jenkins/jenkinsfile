@@ -2,12 +2,14 @@
     agent any
     
     stages {
+        stage('Checkout') {
+            git 'https://github.com/amurphy89/family_tree'
+        }
         stage('Build') {
             options {
                 timeout(time: 3, unit: 'MINUTES') 
             }
             steps {
-                git 'https://github.com/amurphy89/family_tree'
                 sh './cicd/jenkins/build.sh'
             }
             post {
