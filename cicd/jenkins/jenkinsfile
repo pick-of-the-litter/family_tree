@@ -14,6 +14,7 @@
         stage('Test') {
             steps {
                 sh './cicd/jenkins/test.sh'
+                junit './cicd/jenkins/test-report.xml'
             }
         }
     }
