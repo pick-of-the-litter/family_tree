@@ -8,13 +8,12 @@
             }
             steps {
                 git 'https://github.com/amurphy89/family_tree'
-                sh './build.sh'
+                sh './cicd/jenkins/build.sh'
             }            
         }
         stage('Test') {
             steps {
-                sh 'python3 -m pip install pytest'
-                sh 'python3 -m pytest --junitxml=test-report.xml'
+                sh './cicd/jenkins/test.sh'
             }
         }
     }
