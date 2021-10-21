@@ -1,26 +1,13 @@
  pipeline {
     agent any
-    
+
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/amurphy89/family_tree'
-            }
-        }
         stage('Build') {
             options {
                 timeout(time: 3, unit: 'MINUTES') 
             }
             steps {
                 sh './cicd/jenkins/build.sh'
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/**.whl'
-                }
-                failure {
-                    error('Build stage failed, exiting pipeline.')
-                }
             }
         }
         stage('Test') {
@@ -31,10 +18,21 @@
                 sh './cicd/jenkins/test.sh'
             }
             post {
-                success {
-                    junit 'test-report.xml'
+                failure {
+                    emailext body: 'Test failure at $BUILD_URL.', recipientProviders: [upstreamDevelopers()], subject: 'Test failure for $JOB_NAME $BUILD_NUMBER', to: 'amuphy9956@live.com', attachmentsPattern: 'test-report.xml'
                 }
             }
-        }    
+        }   
+    }
+    post {
+        success {
+            junit 'test-report.xml'
+            archiveArtifacts 'dist/**.whl'
+            emailext body: 'Run succeeded at $BUILD_URL.', recipientProviders: [upstreamDevelopers()], subject: 'Run succeeded for $JOB_NAME $BUILD_NUMBER', to: 'amuphy9956@live.com'
+
+        }
+        failure {
+            emailext body: 'Run failed at $BUILD_URL, please check the run output.', recipientProviders: [upstreamDevelopers()], subject: 'Run failed for $JOB_NAME $BUILD_NUMBER', to: 'amuphy9956@live.com', attachLog: true
+        } 
     }
 }
