@@ -2,10 +2,10 @@
     agent any
     
     stages {
-        options {
-            timeout(time: 10, unit: 'MINUTES') 
-        }
         stage('Build') {
+            options {
+                timeout(time: 3, unit: 'MINUTES') 
+            }
             steps {
                 git 'https://github.com/amurphy89/family_tree'
                 sh './cicd/jenkins/build.sh'
@@ -20,6 +20,9 @@
             }
         }
         stage('Test') {
+            options {
+                timeout(time: 5, unit: 'MINUTES') 
+            }
             steps {
                 sh './cicd/jenkins/test.sh'
             }
