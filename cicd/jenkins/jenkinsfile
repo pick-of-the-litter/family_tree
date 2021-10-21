@@ -3,7 +3,9 @@
     
     stages {
         stage('Checkout') {
-            git 'https://github.com/amurphy89/family_tree'
+            steps {
+                git 'https://github.com/amurphy89/family_tree'
+            }
         }
         stage('Build') {
             options {
