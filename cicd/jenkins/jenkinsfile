@@ -11,11 +11,12 @@
                 sh './cicd/jenkins/build.sh'
                 sh './cicd/jenkins/test.sh'
             }
-        post {
-            success {
-                junit 'test-report.xml'
-                archiveArtifacts 'dist/**.whl'
+            post {
+                success {
+                    junit 'test-report.xml'
+                    archiveArtifacts 'dist/**.whl'
+                }
             }
-        }
+        }    
     }
 }
