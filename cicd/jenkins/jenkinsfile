@@ -14,7 +14,12 @@
         stage('Test') {
             steps {
                 sh './cicd/jenkins/test.sh'
+            }
+        }
+        post {
+            success {
                 junit 'test-report.xml'
+                archiveArtifacts 'dist/**.whl'
             }
         }
     }
