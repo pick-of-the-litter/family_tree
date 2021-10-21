@@ -3,19 +3,14 @@
     
     stages {
         stage('Build') {
-              options {
+            options {
                 timeout(time: 5, unit: 'MINUTES') 
             }
             steps {
                 git 'https://github.com/amurphy89/family_tree'
                 sh './cicd/jenkins/build.sh'
-            }            
-        }
-        stage('Test') {
-            steps {
                 sh './cicd/jenkins/test.sh'
             }
-        }
         post {
             success {
                 junit 'test-report.xml'
