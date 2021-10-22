@@ -1,9 +1,6 @@
  pipeline {
     agent {
-        docker {
-            image 'ashmurphy89/pytest-poetry'
-            args '-u cicd_user'
-        }
+        dockerfile { args '--user cicd_user'}
     }
 
     stages {
