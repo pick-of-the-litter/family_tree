@@ -1,5 +1,10 @@
  pipeline {
-    agent any
+    agent {
+        docker {
+            image 'ashmurphy89/pytest-poetry'
+            args '-u cicd_user'
+        }
+    }
 
     stages {
         stage('Build') {
@@ -7,7 +12,7 @@
                 timeout(time: 3, unit: 'MINUTES') 
             }
             steps {
-                sh './cicd/jenkins/build.sh'
+                sh 'poetry build'
             }
         }
         stage('Test') {
@@ -15,7 +20,8 @@
                 timeout(time: 5, unit: 'MINUTES') 
             }
             steps {
-                sh './cicd/jenkins/test.sh'
+                sh 'poetry install'
+                sh 'poetry run pytest .'
             }
             post {
                 failure {
