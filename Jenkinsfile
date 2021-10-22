@@ -18,7 +18,7 @@
             }
             steps {
                 sh 'poetry install'
-                sh 'poetry run pytest --junitxml==test-report.xml'
+                sh 'poetry run pytest --junitxml=test-report.xml'
             }
             post {
                 failure {
